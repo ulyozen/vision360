@@ -1,0 +1,5 @@
+﻿services:
+  quiz-angular:
+    image: ulyozen/quiz-angular:latest
+    ports:
+      - "3000:3000"
