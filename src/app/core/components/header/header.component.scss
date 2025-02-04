@@ -1,0 +1,49 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+  height: 90px;
+
+  //background-color: rgba(255, 228, 196, 0.26);
+  background-color: white;
+
+  .logo {
+    max-width: 315px;
+    width: 100%;
+    padding-bottom: 20px;
+
+    .logo-img {
+      width: 120px;
+    }
+  }
+
+  .search-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    max-width: 550px;
+    margin: 0 16px;
+
+
+    mat-form-field {
+      width: 100%;
+    }
+  }
+
+  .language {
+    font-size: 15px;
+
+  }
+
+  mat-slide-toggle {
+    margin: 0 12px;
+  }
+
+  .header-right-side{
+    padding-bottom: 20px;
+    max-width: 315px;
+    width: 100%;
+  }
+}

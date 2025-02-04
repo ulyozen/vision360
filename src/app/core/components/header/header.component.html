@@ -1,0 +1,63 @@
+<mat-toolbar color="primary" class="header">
+  <!-- Логотип -->
+  <span class="logo">
+    <a routerLink="/">
+      <img class="logo-img" src="https://t4.vision360.kz/images/vision.svg" alt="logo">
+    </a>
+  </span>
+
+  <span class="search-box">
+    <mat-form-field appearance="outline">
+      <mat-label>Search templates...</mat-label>
+      <input matInput type="text">
+      <button mat-icon-button matSuffix>
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+  </span>
+
+  <div class="d-flex header-right-side">
+    <div class="d-flex">
+      <ng-container *ngIf="language$ | async as currentLanguage">
+        <mat-menu #languageMenu="matMenu">
+          <button mat-menu-item (click)="changeLanguage(LanguageEnum.English)">English</button>
+          <button mat-menu-item (click)="changeLanguage(LanguageEnum.Polish)">Polish</button>
+        </mat-menu>
+
+        <button class="language" mat-icon-button [matMenuTriggerFor]="languageMenu">
+          {{ currentLanguage === LanguageEnum.English ? 'US' : 'PL' }}
+        </button>
+      </ng-container>
+
+      <ng-container *ngIf="theme$ | async as currentTheme">
+        <mat-slide-toggle
+          class="d-flex"
+          [checked]="currentTheme === ThemeEnum.Light"
+          (change)="toggleTheme(currentTheme === ThemeEnum.Light ? ThemeEnum.Dark : ThemeEnum.Light)"
+          color="accent">
+          <mat-icon class="d-flex">
+            {{ currentTheme === ThemeEnum.Light ? 'light_mode' : 'dark_mode' }}
+          </mat-icon>
+        </mat-slide-toggle>
+      </ng-container>
+    </div>
+
+    <div class="d-flex">
+      <ng-container *ngIf="!(isAuthenticated$ | async); else loggedIn">
+        <button mat-button routerLink="/login">Sign In</button>
+        <button mat-button routerLink="/register">Sign Up</button>
+      </ng-container>
+
+      <ng-template #loggedIn>
+        <mat-menu #userMenu="matMenu">
+          <button mat-menu-item routerLink="/profile">Profile</button>
+          <button mat-menu-item (click)="logout()">Logout</button>
+        </mat-menu>
+
+        <button mat-icon-button [matMenuTriggerFor]="userMenu">
+          <mat-icon>account_circle</mat-icon>
+        </button>
+      </ng-template>
+    </div>
+  </div>
+</mat-toolbar>
