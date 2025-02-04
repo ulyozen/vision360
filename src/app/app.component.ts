@@ -1,11 +1,17 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {HeaderService} from './core/services/header.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  standalone: false,
-  styleUrl: './app.component.scss'
+  standalone: false
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+  constructor(private headerService: HeaderService) {}
 
+  ngOnInit(): void {
+    this.headerService.loadTheme()
+    this.headerService.loadLanguage()
+    this.headerService.loadAuthentication()
+  }
 }
