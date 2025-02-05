@@ -1,5 +1,5 @@
-import {createAction, props} from '@ngrx/store';
-import {HeaderState} from './header.state';
+import { createAction, props } from '@ngrx/store';
+import { HeaderState } from './header.state';
 
 export const setTheme = createAction(
   '[Header] Set Theme',
