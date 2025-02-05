@@ -1,5 +1,4 @@
 <mat-toolbar color="primary" class="header">
-  <!-- Логотип -->
   <span class="logo">
     <a routerLink="/">
       <img class="logo-img" src="https://t4.vision360.kz/images/vision.svg" alt="logo">
@@ -8,7 +7,9 @@
 
   <span class="search-box">
     <mat-form-field appearance="outline">
-      <mat-label>Search templates...</mat-label>
+      <mat-label>
+        {{ 'HEADER.SEARCH' | translate }}
+      </mat-label>
       <input matInput type="text">
       <button mat-icon-button matSuffix>
         <mat-icon>search</mat-icon>
@@ -20,12 +21,20 @@
     <div class="d-flex">
       <ng-container *ngIf="language$ | async as currentLanguage">
         <mat-menu #languageMenu="matMenu">
-          <button mat-menu-item (click)="changeLanguage(LanguageEnum.English)">English</button>
-          <button mat-menu-item (click)="changeLanguage(LanguageEnum.Polish)">Polish</button>
+          <button mat-menu-item (click)="changeLanguage(LanguageEnum.English)">
+            {{ 'HEADER.ENGLISH' | translate }}
+          </button>
+          <button mat-menu-item (click)="changeLanguage(LanguageEnum.Swedish)">
+            {{ 'HEADER.SWEDISH' | translate }}
+          </button>
         </mat-menu>
 
         <button class="language" mat-icon-button [matMenuTriggerFor]="languageMenu">
-          {{ currentLanguage === LanguageEnum.English ? 'US' : 'PL' }}
+          {{
+            currentLanguage === LanguageEnum.English
+              ? LanguageEnum.English.toUpperCase()
+              : LanguageEnum.Swedish.toUpperCase()
+          }}
         </button>
       </ng-container>
 
@@ -44,14 +53,22 @@
 
     <div class="d-flex">
       <ng-container *ngIf="!(isAuthenticated$ | async); else loggedIn">
-        <button mat-button routerLink="/login">Sign In</button>
-        <button mat-button routerLink="/register">Sign Up</button>
+        <button mat-button routerLink="/login">
+          {{ 'HEADER.SIGNIN' | translate }}
+        </button>
+        <button mat-button routerLink="/register">
+          {{ 'HEADER.SIGNUP' | translate }}
+        </button>
       </ng-container>
 
       <ng-template #loggedIn>
         <mat-menu #userMenu="matMenu">
-          <button mat-menu-item routerLink="/profile">Profile</button>
-          <button mat-menu-item (click)="logout()">Logout</button>
+          <button mat-menu-item routerLink="/profile">
+            {{ 'HEADER.PROFILE' | translate }}
+          </button>
+          <button mat-menu-item (click)="logout()">
+            {{ 'HEADER.LOGOUT' | translate }}
+          </button>
         </mat-menu>
 
         <button mat-icon-button [matMenuTriggerFor]="userMenu">
