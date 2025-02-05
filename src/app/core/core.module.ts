@@ -11,4 +11,5 @@ import { HeaderModule } from './components/header/header.module';
     HeaderModule
   ]
 })
-export class CoreModule {}
+export class CoreModule {
+}

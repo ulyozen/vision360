@@ -7,8 +7,11 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { SharedModule } from './shared/shared.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { StoreModule } from '@ngrx/store';
-import {reducers} from './features/reducers';
-import {CoreModule} from './core/core.module';
+import { appReducers } from './app.reducers';
+import { CoreModule } from './core/core.module';
+import { provideHttpClient } from '@angular/common/http';
+import { TranslateModule } from '@ngx-translate/core';
+import { appTranslate } from './app.translate';
 
 @NgModule({
   declarations: [
@@ -20,11 +23,14 @@ import {CoreModule} from './core/core.module';
     CoreModule,
     SharedModule,
     NgbModule,
-    StoreModule.forRoot(reducers)
+    StoreModule.forRoot(appReducers),
+    TranslateModule.forRoot(appTranslate)
   ],
   providers: [
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    provideHttpClient()
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
