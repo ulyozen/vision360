@@ -1,5 +1,4 @@
-import { ThemeEnum } from '../../enums/Theme';
-import { LanguageEnum } from '../../enums/Language';
+import { LanguageEnum, StorageKeys, ThemeEnum } from '../../enums';
 
 export interface HeaderState {
   theme: ThemeEnum;
@@ -8,7 +7,7 @@ export interface HeaderState {
 }
 
 export const initialHeaderState: HeaderState = {
-  theme: ThemeEnum.Light,
-  language: LanguageEnum.English,
+  theme: (localStorage.getItem(StorageKeys.Theme) as ThemeEnum) || ThemeEnum.Light,
+  language: (localStorage.getItem(StorageKeys.Language) as LanguageEnum) || LanguageEnum.English,
   isAuthenticated: false,
 }
