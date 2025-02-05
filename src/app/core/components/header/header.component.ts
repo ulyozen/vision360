@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { setLanguage, setTheme } from '../../store/header/header.actions';
+
 import { selectIsAuthenticated, selectLanguage, selectTheme } from '../../store/header/header.selectors';
-import { ThemeEnum } from '../../enums/Theme';
-import { LanguageEnum } from '../../enums/Language';
-import {StorageKeys} from '../../enums/StorageKeys';
+import { ThemeEnum, LanguageEnum } from '../../enums';
+import { AppService } from '../../services/app.service';
 
 @Component({
   selector: 'app-header',
@@ -21,25 +20,24 @@ export class HeaderComponent {
   protected readonly ThemeEnum = ThemeEnum;
   protected readonly LanguageEnum = LanguageEnum;
 
-  constructor(private store: Store) {
+  constructor(
+    private store: Store,
+    private app: AppService
+  ) {
     this.theme$ = this.store.select(selectTheme)
     this.language$ = this.store.select(selectLanguage)
     this.isAuthenticated$ = this.store.select(selectIsAuthenticated)
   }
 
   toggleTheme(theme: ThemeEnum) {
-    this.store.dispatch(setTheme({ theme }))
-    localStorage.setItem(StorageKeys.Theme, theme)
+    this.app.applyTheme(theme);
   }
 
   changeLanguage(language: LanguageEnum) {
-    this.store.dispatch(setLanguage({ language }))
-    localStorage.setItem(StorageKeys.Language, language)
+    this.app.applyLanguage(language);
   }
 
   logout() {
     // this.store.dispatch(logout());
   }
-
-
 }
