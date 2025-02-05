@@ -11,6 +11,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [HeaderComponent],
@@ -26,7 +27,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatInputModule,
     MatSlideToggleModule,
     MatFormFieldModule,
+    TranslatePipe,
   ],
   exports: [HeaderComponent]
 })
-export class HeaderModule {}
+export class HeaderModule {
+}

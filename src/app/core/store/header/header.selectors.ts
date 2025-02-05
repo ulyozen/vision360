@@ -1,5 +1,5 @@
-import {createFeatureSelector, createSelector} from '@ngrx/store';
-import {HeaderState} from './header.state';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { HeaderState } from './header.state';
 
 export const selectHeaderState = createFeatureSelector<HeaderState>('header')
 

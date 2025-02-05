@@ -1,7 +1,8 @@
-import {createReducer, on} from '@ngrx/store';
-import {HeaderState, initialHeaderState} from './header.state';
-import {setAuthenticated, setLanguage, setTheme, setUnauthenticated} from './header.actions';
-import {updateState} from '../common/ngrx-helpers';
+import { createReducer, on } from '@ngrx/store';
+import { updateState } from '../common/ngrx-helpers';
+
+import { HeaderState, initialHeaderState } from './header.state';
+import { setAuthenticated, setLanguage, setTheme, setUnauthenticated } from './header.actions';
 
 export const headerReducer = createReducer(
   initialHeaderState,
