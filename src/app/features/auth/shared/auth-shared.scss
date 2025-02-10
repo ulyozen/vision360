@@ -1,3 +1,10 @@
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
 mat-card {
   max-width: 400px;
   margin: 2rem auto;
@@ -22,5 +29,24 @@ mat-card {
     font-size: 1rem;
     font-weight: bold;
     border-radius: 8px;
+  }
+}
+
+.sign-link {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 14px;
+
+  a {
+    color: var(--mat-sys-primary);
+    font-weight: 500;
+    text-decoration: none;
+    margin-left: 5px;
+    transition: color 0.3s;
+
+    &:hover {
+      color: var(--mat-sys-primary-light);
+      text-decoration: underline;
+    }
   }
 }
