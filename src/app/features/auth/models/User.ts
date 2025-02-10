@@ -6,4 +6,14 @@ export interface User {
 
 export interface UserResponse {
   success: boolean;
+  errors?: string[];
+  token?: {
+    expiresIn: number,
+    accessToken: string
+  },
+  user?: {
+    id: string,
+    email: string,
+    role: string
+  }
 }
