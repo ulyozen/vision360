@@ -1,0 +1,31 @@
+<mat-card>
+  <h1>Sign In</h1>
+  <form [formGroup]="signInForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" type="email">
+      <mat-icon fontIcon="alternate_email" matSuffix></mat-icon>
+      <mat-error *ngIf="signInForm.get('email')?.hasError('required')">
+        Email is required
+      </mat-error>
+      <mat-error *ngIf="signInForm.get('email')?.hasError('email')">
+        Enter a valid email!
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput formControlName="password" [type]="hide ? 'password' : 'text'">
+      <mat-icon matSuffix (click)="hide = !hide">
+        {{ hide ? 'visibility_off' : 'visibility' }}
+      </mat-icon>
+      <mat-error *ngIf="signInForm.get('password')?.hasError('required')">
+        Password is required!
+      </mat-error>
+    </mat-form-field>
+
+    <button mat-flat-button type="submit">
+      Sign Up
+    </button>
+  </form>
+</mat-card>
