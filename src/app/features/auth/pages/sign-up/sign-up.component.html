@@ -1,40 +1,56 @@
 <mat-card>
-  <h1>Sign Up</h1>
+  <h1>{{ 'AUTH.TITLE_SIGNUP' | translate }}</h1>
   <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="outline">
-      <mat-label>Username</mat-label>
+      <mat-label>
+        {{ 'AUTH.USERNAME' | translate }}
+      </mat-label>
       <input matInput formControlName="username" type="text">
       <mat-icon fontIcon="person" matSuffix></mat-icon>
       <mat-error *ngIf="signUpForm.get('username')?.hasError('required')">
-        Username is required!
+        {{ 'AUTH.USERNAME_REQUIRED' | translate }}
       </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
-      <mat-label>Email</mat-label>
+      <mat-label>
+        {{ 'AUTH.EMAIL' | translate }}
+      </mat-label>
       <input matInput formControlName="email" type="email">
       <mat-icon fontIcon="alternate_email" matSuffix></mat-icon>
       <mat-error *ngIf="signUpForm.get('email')?.hasError('required')">
-        Email is required
+        {{ 'AUTH.EMAIL_REQUIRED' | translate }}
       </mat-error>
       <mat-error *ngIf="signUpForm.get('email')?.hasError('email')">
-        Enter a valid email!
+        {{ 'AUTH.EMAIL_INVALID' | translate }}
+      </mat-error>
+      <mat-error *ngIf="signUpForm.get('email')?.hasError('userExists')">
+        {{ 'AUTH.EMAIL_EXISTS' | translate }}
       </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
-      <mat-label>Password</mat-label>
-      <input matInput formControlName="password" [type]="hide ? 'password' : 'text'">
+      <mat-label>
+        {{ 'AUTH.PASSWORD' | translate }}
+      </mat-label>
+      <input matInput formControlName="password" [type]="hide ? 'text' : 'password'">
       <mat-icon matSuffix (click)="hide = !hide">
-        {{ hide ? 'visibility_off' : 'visibility' }}
+        {{ hide ? 'visibility' : 'visibility_off' }}
       </mat-icon>
       <mat-error *ngIf="signUpForm.get('password')?.hasError('required')">
-        Password is required!
+        {{ 'AUTH.PASSWORD_REQUIRED' | translate }}
       </mat-error>
     </mat-form-field>
 
     <button mat-flat-button type="submit">
-      Sign Up
+      {{ 'HEADER.SIGNUP' | translate }}
     </button>
+
+    <div class="sign-link">
+      {{ 'AUTH.HAVE_ACCOUNT' | translate }}
+      <a routerLink="/auth/signin">
+        {{ 'HEADER.SIGNIN' | translate }}
+      </a>
+    </div>
   </form>
 </mat-card>

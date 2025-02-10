@@ -1,31 +1,57 @@
 <mat-card>
-  <h1>Sign In</h1>
+  <h1>{{ 'AUTH.TITLE_SIGNIN' | translate }}</h1>
   <form [formGroup]="signInForm" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="outline">
-      <mat-label>Email</mat-label>
+      <mat-label>
+        {{ 'AUTH.EMAIL' | translate }}
+      </mat-label>
       <input matInput formControlName="email" type="email">
       <mat-icon fontIcon="alternate_email" matSuffix></mat-icon>
       <mat-error *ngIf="signInForm.get('email')?.hasError('required')">
-        Email is required
+        {{ 'AUTH.EMAIL_REQUIRED' | translate }}
       </mat-error>
       <mat-error *ngIf="signInForm.get('email')?.hasError('email')">
-        Enter a valid email!
+        {{ 'AUTH.EMAIL_INVALID' | translate }}
+      </mat-error>
+      <mat-error *ngIf="signInForm.get('email')?.hasError('userExists')">
+        {{ 'AUTH.EMAIL_NOT_EXISTS' | translate }}
       </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
-      <mat-label>Password</mat-label>
-      <input matInput formControlName="password" [type]="hide ? 'password' : 'text'">
+      <mat-label>
+        {{ 'AUTH.PASSWORD' | translate }}
+      </mat-label>
+      <input matInput formControlName="password" [type]="hide ? 'text' : 'password'">
       <mat-icon matSuffix (click)="hide = !hide">
-        {{ hide ? 'visibility_off' : 'visibility' }}
+        {{ hide ? 'visibility' : 'visibility_off' }}
       </mat-icon>
       <mat-error *ngIf="signInForm.get('password')?.hasError('required')">
-        Password is required!
+        {{ 'AUTH.PASSWORD_REQUIRED' | translate }}
+      </mat-error>
+      <mat-error *ngIf="signInForm.get('password')?.hasError('incorrect')">
+        {{ 'AUTH.PASSWORD_INCORRECT' | translate }}
       </mat-error>
     </mat-form-field>
 
+    <div class="remember-forgot">
+      <mat-checkbox formControlName="rememberMe">
+        {{ 'AUTH.REMEMBER_ME' | translate }}
+      </mat-checkbox>
+      <a class="forgot-password" (click)="onForgotPassword()">
+        {{ 'AUTH.FORGOT_PASSWORD' | translate }}
+      </a>
+    </div>
+
     <button mat-flat-button type="submit">
-      Sign Up
+      {{ 'HEADER.SIGNIN' | translate }}
     </button>
+
+    <div class="sign-link">
+      {{ 'AUTH.NO_ACCOUNT' | translate }}
+      <a routerLink="/auth/signup">
+        {{ 'HEADER.SIGNUP' | translate }}
+      </a>
+    </div>
   </form>
 </mat-card>
