@@ -17,10 +17,10 @@ export class SignUpComponent {
   signUpForm!: FormGroup;
 
   constructor(
-    private authService: AuthService,
-    private fb: FormBuilder,
-    private router: Router,
     private store: Store,
+    private router: Router,
+    private fb: FormBuilder,
+    private authService: AuthService,
   ) {
     this.signUpForm = this.fb.group({
       username: ['', [Validators.required]],
@@ -30,18 +30,21 @@ export class SignUpComponent {
   }
 
   onSubmit() {
-    if (this.signUpForm.invalid) return console.log('invalid');
+    if (this.signUpForm.invalid) return
 
-    const user = this.signUpForm.value as User;
+    const user = this.signUpForm.value as User
 
-    this.authService.signup(user).subscribe({
-      next: (user: UserResponse) => {
-        if (user.success) {
-          this.store.dispatch(setAuthMessage( { message: "You have successfully registered!" } ))
-          this.router.navigate(['/auth/signin']);
-        }
-      },
-      error: error => console.error(error)
+    this.authService.signup(user).subscribe((response: UserResponse) => {
+      const { success, errors } = response
+      const email = this.signUpForm.get('email')
+
+      if (errors?.includes(`Email ${email!.value} already exists.`))
+        return email!.setErrors({ userExists: true })
+
+      if (!success) return
+
+      this.store.dispatch(setAuthMessage( { message: 'You have successfully registered!' } ))
+      this.router.navigate(['/auth/signin'])
     })
   }
 }
