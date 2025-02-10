@@ -8,5 +8,23 @@
     "SIGNUP": "Registrera",
     "PROFILE": "Profil",
     "LOGOUT": "Logga ut"
+  },
+  "AUTH": {
+    "TITLE_SIGNIN": "Välkommen tillbaka!",
+    "TITLE_SIGNUP": "Gå med oss idag!",
+    "USERNAME": "Användarnamn",
+    "EMAIL": "E-post",
+    "PASSWORD": "Lösenord",
+    "REMEMBER_ME": "Kom ihåg mig",
+    "FORGOT_PASSWORD": "Glömt lösenord?",
+    "NO_ACCOUNT": "Har du inget konto?",
+    "HAVE_ACCOUNT": "Har du redan ett konto?",
+    "USERNAME_REQUIRED": "Användarnamn krävs!",
+    "EMAIL_REQUIRED": "E-post krävs!",
+    "EMAIL_INVALID": "Ange en giltig e-postadress!",
+    "EMAIL_EXISTS": "En användare med denna e-post finns redan!",
+    "EMAIL_NOT_EXISTS": "Ingen användare med denna e-post hittades!",
+    "PASSWORD_REQUIRED": "Lösenord krävs!",
+    "PASSWORD_INCORRECT": "Fel lösenord!"
   }
 }
