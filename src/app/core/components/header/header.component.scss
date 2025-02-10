@@ -34,8 +34,10 @@
   }
 
   .language {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 15px;
-
   }
 
   mat-slide-toggle {
@@ -43,6 +45,8 @@
   }
 
   .header-right-side{
+    display: flex;
+    justify-content: flex-end;
     padding-bottom: 20px;
     max-width: 315px;
     width: 100%;
