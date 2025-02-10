@@ -1,1 +1,28 @@
 @use "../../shared/auth-shared";
+
+.remember-forgot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  //margin: 10px 0;
+  margin-bottom: 1rem;
+
+  mat-checkbox {
+    font-size: 14px;
+  }
+
+  .forgot-password {
+    font-size: 14px;
+    color: var(--mat-sys-primary);
+    cursor: pointer;
+    text-decoration: none;
+    transition: color 0.3s;
+
+    &:hover {
+      color: var(--mat-sys-primary-light);
+      text-decoration: underline;
+    }
+  }
+}
+
+
