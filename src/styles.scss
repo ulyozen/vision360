@@ -1,5 +1,5 @@
-@import 'bootstrap/scss/bootstrap';
-@import '../public/styles/theme';
+@use 'bootstrap/scss/bootstrap';
+@use '../public/styles/theme';
 
 html, body {
   height: 100%;
