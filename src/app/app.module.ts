@@ -12,6 +12,7 @@ import { CoreModule } from './core/core.module';
 import { provideHttpClient } from '@angular/common/http';
 import { TranslateModule } from '@ngx-translate/core';
 import { appTranslate } from './app.translate';
+import { FeaturesModule } from './features/features.module';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { appTranslate } from './app.translate';
     BrowserModule,
     AppRoutingModule,
     CoreModule,
+    FeaturesModule,
     SharedModule,
     NgbModule,
     StoreModule.forRoot(appReducers),
