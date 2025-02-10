@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { selectIsAuthenticated, selectLanguage, selectTheme } from '../../store/header/header.selectors';
 import { ThemeEnum, LanguageEnum } from '../../enums';
 import { AppService } from '../../services/app.service';
+import { AuthService } from '../../../features/auth/services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -22,7 +23,8 @@ export class HeaderComponent {
 
   constructor(
     private store: Store,
-    private app: AppService
+    private app: AppService,
+    private auth: AuthService
   ) {
     this.theme$ = this.store.select(selectTheme)
     this.language$ = this.store.select(selectLanguage)
@@ -38,6 +40,6 @@ export class HeaderComponent {
   }
 
   logout() {
-    // this.store.dispatch(logout());
+    this.auth.logout()
   }
 }
