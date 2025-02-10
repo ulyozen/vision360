@@ -7,7 +7,7 @@ export const setTheme = createAction(
 )
 
 export const setLanguage = createAction(
-  '[Header] Set Language.ts',
+  '[Header] Set Language',
   props<Pick<HeaderState, 'language'>>()
 )
 
