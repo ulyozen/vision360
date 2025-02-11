@@ -32,9 +32,11 @@ export class AuthService {
       .pipe(
         map(response => {
           if (!response.success) {
+            console.log(response);
             this.logout()
             return response
           }
+          console.log(response);
 
           this.saveAccessToken(response.token!.accessToken, response.token!.expiresIn)
           this.store.dispatch(setAuthenticated())
@@ -78,20 +80,23 @@ export class AuthService {
   }
 
   logout(): void {
-    this.http.post(this.api.auth.logout, {}, { withCredentials: true }).subscribe({
-      next: () => console.log('Logout successful'),
-      error: err => console.error('Logout failed:', err),
-      complete: () => {
-        localStorage.removeItem('accessToken')
-        localStorage.removeItem('tokenExpiration')
 
-        this.refreshSubscription?.unsubscribe()
-        this.refreshSubscription = null
-        
-        this.store.dispatch(setUnauthenticated())
-        this.router.navigate(['/'])
-      }
-    })
+    localStorage.removeItem('accessToken')
+    localStorage.removeItem('tokenExpiration')
+
+    this.refreshSubscription?.unsubscribe()
+    this.refreshSubscription = null
+
+    this.store.dispatch(setUnauthenticated())
+    this.router.navigate(['/'])
+
+    // this.http.post(this.api.auth.logout, {}, { withCredentials: true }).subscribe({
+    //   next: () => console.log('Logout successful'),
+    //   error: err => console.error('Logout failed:', err),
+    //   complete: () => {
+    //
+    //   }
+    // })
   }
 
   private scheduleRefreshToken(expiresIn: number): void {
@@ -101,6 +106,6 @@ export class AuthService {
 
     this.refreshSubscription = interval(timeUntilRefresh)
       .pipe(take(1), switchMap(() => this.refreshToken()))
-      .subscribe()
+      .subscribe(() => console.log('Subscribed'))
   }
 }

@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class ApiService {
   private readonly baseUrl = 'https://api.vision360.kz'
+  // private readonly baseUrl = 'http://localhost:5016'
 
   readonly auth = {
     signup: `${this.baseUrl}/auth/signup`,
