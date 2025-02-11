@@ -18,6 +18,6 @@ export const headerReducer = createReducer(
 
   on(setUnauthenticated, (state) => ({
     ...state,
-    initialHeaderState: false
+    isAuthenticated: false
   }))
 )
