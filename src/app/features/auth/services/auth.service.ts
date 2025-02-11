@@ -1,12 +1,13 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { catchError, interval, map, Observable, Subscription, switchMap, take, throwError } from 'rxjs';
 
 import { User, UserResponse } from '../models/User';
 import { ApiService } from '../../../core/services/api.service';
 import { setAuthenticated, setUnauthenticated } from '../../../core/store/header/header.actions';
-import { Router } from '@angular/router';
+
 
 @Injectable({
   providedIn: 'root'
@@ -14,17 +15,17 @@ import { Router } from '@angular/router';
 export class AuthService {
   private refreshSubscription: Subscription | null = null
 
-  private store = inject(Store)
-  private http = inject(HttpClient)
-  private api = inject(ApiService)
   private router = inject(Router)
+  private store  = inject(Store)
+  private http   = inject(HttpClient)
+  private api    = inject(ApiService)
 
   signup(user: User): Observable<UserResponse> {
    return this.http.post<UserResponse>(this.api.auth.signup, user)
   }
 
   signin(user: User): Observable<UserResponse> {
-    return this.http.post<UserResponse>(this.api.auth.signin, user)
+    return this.http.post<UserResponse>(this.api.auth.signin, user, { withCredentials: true })
   }
 
   refreshToken(): Observable<UserResponse> {
@@ -36,7 +37,6 @@ export class AuthService {
             this.logout()
             return response
           }
-          console.log(response);
 
           this.saveAccessToken(response.token!.accessToken, response.token!.expiresIn)
           this.store.dispatch(setAuthenticated())
@@ -80,23 +80,20 @@ export class AuthService {
   }
 
   logout(): void {
+    this.http.post(this.api.auth.logout, {}, { withCredentials: true }).subscribe({
+      next: () => console.log('Logout successful'),
+      error: err => console.error('Logout failed:', err),
+      complete: () => {
+        localStorage.removeItem('accessToken')
+        localStorage.removeItem('tokenExpiration')
 
-    localStorage.removeItem('accessToken')
-    localStorage.removeItem('tokenExpiration')
+        this.refreshSubscription?.unsubscribe()
+        this.refreshSubscription = null
 
-    this.refreshSubscription?.unsubscribe()
-    this.refreshSubscription = null
-
-    this.store.dispatch(setUnauthenticated())
-    this.router.navigate(['/'])
-
-    // this.http.post(this.api.auth.logout, {}, { withCredentials: true }).subscribe({
-    //   next: () => console.log('Logout successful'),
-    //   error: err => console.error('Logout failed:', err),
-    //   complete: () => {
-    //
-    //   }
-    // })
+        this.store.dispatch(setUnauthenticated())
+        this.router.navigate(['/'])
+      }
+    })
   }
 
   private scheduleRefreshToken(expiresIn: number): void {
@@ -106,6 +103,6 @@ export class AuthService {
 
     this.refreshSubscription = interval(timeUntilRefresh)
       .pipe(take(1), switchMap(() => this.refreshToken()))
-      .subscribe(() => console.log('Subscribed'))
+      .subscribe()
   }
 }
