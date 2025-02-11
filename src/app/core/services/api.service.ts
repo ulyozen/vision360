@@ -9,6 +9,7 @@ export class ApiService {
   readonly auth = {
     signup: `${this.baseUrl}/auth/signup`,
     signin: `${this.baseUrl}/auth/signin`,
-    refreshToken: `${this.baseUrl}/auth/refresh-token`
+    refreshToken: `${this.baseUrl}/auth/refresh-token`,
+    logout: `${this.baseUrl}/auth/logout`
   }
 }
