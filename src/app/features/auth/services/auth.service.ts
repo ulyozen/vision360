@@ -6,6 +6,7 @@ import { catchError, interval, map, Observable, Subscription, switchMap, take, t
 import { User, UserResponse } from '../models/User';
 import { ApiService } from '../../../core/services/api.service';
 import { setAuthenticated, setUnauthenticated } from '../../../core/store/header/header.actions';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,7 @@ export class AuthService {
   private store = inject(Store)
   private http = inject(HttpClient)
   private api = inject(ApiService)
+  private router = inject(Router)
 
   signup(user: User): Observable<UserResponse> {
    return this.http.post<UserResponse>(this.api.auth.signup, user)
@@ -29,14 +31,18 @@ export class AuthService {
     return this.http.post<UserResponse>(this.api.auth.refreshToken, {}, { withCredentials: true })
       .pipe(
         map(response => {
-          if (response.success) {
-            this.saveAccessToken(response.token!.accessToken, response.token!.expiresIn)
-            this.store.dispatch(setAuthenticated())
+          if (!response.success) {
+            this.logout()
+            return response
           }
+
+          this.saveAccessToken(response.token!.accessToken, response.token!.expiresIn)
+          this.store.dispatch(setAuthenticated())
 
           return response
         }),
         catchError(error => {
+          console.log(error)
           this.logout()
           return throwError(() => error)
         })
@@ -72,18 +78,24 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem('accessToken')
-    localStorage.removeItem('tokenExpiration')
+    this.http.post(this.api.auth.logout, {}, { withCredentials: true }).subscribe({
+      next: () => console.log('Logout successful'),
+      error: err => console.error('Logout failed:', err),
+      complete: () => {
+        localStorage.removeItem('accessToken')
+        localStorage.removeItem('tokenExpiration')
 
-    this.refreshSubscription?.unsubscribe()
-    this.refreshSubscription = null
-
-    this.store.dispatch(setUnauthenticated())
-    window.location.href = '/'
+        this.refreshSubscription?.unsubscribe()
+        this.refreshSubscription = null
+        
+        this.store.dispatch(setUnauthenticated())
+        this.router.navigate(['/'])
+      }
+    })
   }
 
   private scheduleRefreshToken(expiresIn: number): void {
-    const timeUntilRefresh = (expiresIn * 1000) - 10000
+    const timeUntilRefresh = Math.max((expiresIn * 1000) - 10000, 0)
 
     this.refreshSubscription?.unsubscribe()
 
