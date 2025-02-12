@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { selectMessage } from '../../store/auth.selectors';
 import { cleanAuthMessage } from '../../store/auth.actions';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil, throttleTime } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { User, UserResponse } from '../../models/User';
 import { setAuthenticated } from '../../../../core/store/header/header.actions';
@@ -50,31 +50,33 @@ export class SignInComponent implements OnInit, OnDestroy {
 
     const user = this.signInForm.value as User
 
-    this.authService.signin(user).subscribe((response: UserResponse) => {
-      const { success, errors, token } = response
+    this.authService.signin(user)
+      .pipe(throttleTime(2000))
+      .subscribe((response: UserResponse) => {
+        const { success, errors, token } = response
 
-      const email = this.signInForm.get('email')
-      const password = this.signInForm.get('password')
+        const email = this.signInForm.get('email')
+        const password = this.signInForm.get('password')
 
-      if (errors?.includes(`Email ${email!.value} does not exist.`))
-        email!.setErrors({ userExists: true })
+        if (errors?.includes(`Email ${email!.value} does not exist.`))
+          email!.setErrors({ userExists: true })
 
-      if (errors?.includes('Incorrect password.'))
-        password!.setErrors({ incorrect: true })
+        if (errors?.includes('Incorrect password.'))
+          password!.setErrors({ incorrect: true })
 
-      if (!success || !token) return
+        if (!success || !token) return
 
-      const { accessToken, expiresIn } = token
-      localStorage.setItem('accessToken', accessToken)
-      localStorage.setItem('tokenExpiration', (Date.now() + expiresIn * 1000).toString())
+        const { accessToken, expiresIn } = token
+        localStorage.setItem('accessToken', accessToken)
+        localStorage.setItem('tokenExpiration', (Date.now() + expiresIn * 1000).toString())
 
-      this.store.dispatch(setAuthenticated())
-      this.router.navigate(['/'])
-    })
+        this.store.dispatch(setAuthenticated())
+        this.router.navigate(['/'])
+      })
   }
 
   onForgotPassword() {
-
+    this.router.navigate(['/auth/forgot-password'])
   }
 
   showMessage(duration = 4000) {

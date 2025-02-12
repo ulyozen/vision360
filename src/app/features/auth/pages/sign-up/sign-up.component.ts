@@ -5,6 +5,7 @@ import { User, UserResponse } from '../../models/User';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { setAuthMessage } from '../../store/auth.actions';
+import { throttleTime } from 'rxjs';
 
 @Component({
   selector: 'app-sign-up',
@@ -34,17 +35,19 @@ export class SignUpComponent {
 
     const user = this.signUpForm.value as User
 
-    this.authService.signup(user).subscribe((response: UserResponse) => {
-      const { success, errors } = response
-      const email = this.signUpForm.get('email')
+    this.authService.signup(user)
+      .pipe(throttleTime(2000))
+      .subscribe((response: UserResponse) => {
+        const { success, errors } = response
+        const email = this.signUpForm.get('email')
 
-      if (errors?.includes(`Email ${email!.value} already exists.`))
-        return email!.setErrors({ userExists: true })
+        if (errors?.includes(`Email ${email!.value} already exists.`))
+          return email!.setErrors({ userExists: true })
 
-      if (!success) return
+        if (!success) return
 
-      this.store.dispatch(setAuthMessage( { message: 'You have successfully registered!' } ))
-      this.router.navigate(['/auth/signin'])
+        this.store.dispatch(setAuthMessage( { message: 'You have successfully registered!' } ))
+        this.router.navigate(['/auth/signin'])
     })
   }
 }
