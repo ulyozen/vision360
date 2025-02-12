@@ -28,6 +28,10 @@ export class AuthService {
     return this.http.post<UserResponse>(this.api.auth.signin, user, { withCredentials: true })
   }
 
+  forgotPassword(user: User): Observable<UserResponse> {
+    return this.http.post<UserResponse>(this.api.auth.forgotPassword, user, {withCredentials: true})
+  }
+
   refreshToken(): Observable<UserResponse> {
     return this.http.post<UserResponse>(this.api.auth.refreshToken, {}, { withCredentials: true })
       .pipe(

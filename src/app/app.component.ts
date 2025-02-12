@@ -38,7 +38,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.router.events.subscribe(event => {
         if (event instanceof NavigationEnd) {
-          this.showHeader = !['/auth/signin', '/auth/signup'].includes(event.url)
+          this.showHeader = !['/auth/signin', '/auth/signup', '/auth/forgot-password'].includes(event.url)
         }
       })
     )
